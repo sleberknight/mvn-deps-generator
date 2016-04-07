@@ -46,7 +46,10 @@ public class DependencyGenerator {
         List<MvnDependency> mvnDeps = DependencySearcher.getMvnDependencies(group, version);
         System.out.printf("Num dependencies: %d%s", mvnDeps.size(), SEPARATOR);
 
-        String artifactIds = mvnDeps.stream().map(MvnDependency::getArtifact).sorted().collect(joining(LINE_SEPARATOR));
+        String artifactIds = mvnDeps.stream()
+                .map(MvnDependency::getArtifact)
+                .sorted()
+                .collect(joining(LINE_SEPARATOR));
         System.out.printf("Artifacts:%n%s%s", artifactIds, SEPARATOR);
 
         String depsXml = DependencySearcher.getPomDependencyXml(mvnDeps);
@@ -64,6 +67,7 @@ public class DependencyGenerator {
 
         String artifactAndVersions = mvnDeps.stream()
                 .map(DependencyGenerator::artifactAndVersion)
+                .sorted()
                 .collect(joining(LINE_SEPARATOR));
         System.out.printf("Artifacts:%n%s%s", artifactAndVersions, SEPARATOR);
 
