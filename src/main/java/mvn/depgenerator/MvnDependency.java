@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.List;
 import java.util.Map;
 
 import static mvn.depgenerator.util.MapsHelper.immutableStringList;
@@ -14,6 +13,8 @@ import static mvn.depgenerator.util.MapsHelper.longValue;
 import static mvn.depgenerator.util.MapsHelper.string;
 
 /**
+ * Represent structure for searches that include the group and version number (and optionally artifact).
+ *
  * <p>
  * Response structure:
  * <pre>
@@ -71,12 +72,6 @@ public class MvnDependency {
         );
     }
 
-    @SuppressWarnings("unchecked")
-    public static List<Map<String, Object>> docs(Map<String, Object> map) {
-        Map<String, Object> responseMap = (Map<String, Object>) map.get("response");
-        return (List<Map<String, Object>>) responseMap.get("docs");
-    }
-
     public static MvnDependency from(Map<String, Object> doc) {
         return MvnDependency.builder()
                 .id(string(doc, "id"))
@@ -87,6 +82,19 @@ public class MvnDependency {
                 .timestamp(longValue(doc, "timestamp"))
                 .tags(immutableStringList(doc, "tags"))
                 .ec(immutableStringList(doc, "ec"))
+                .build();
+    }
+
+    public static MvnDependency from(MvnGroupDependency groupDependency) {
+        return MvnDependency.builder()
+                .id(groupDependency.getId())
+                .group(groupDependency.getGroup())
+                .artifact(groupDependency.getArtifact())
+                .version(groupDependency.getLatestVersion())
+                .packaging(groupDependency.getPackaging())
+                .timestamp(groupDependency.getTimestamp())
+                .tags(ImmutableList.of())
+                .ec(groupDependency.getEc())
                 .build();
     }
 

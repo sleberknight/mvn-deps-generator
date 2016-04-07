@@ -15,6 +15,10 @@ public final class MapsHelper {
         return (Long) map.get(key);
     }
 
+    public static Integer integerValue(Map<String, Object> map, String key) {
+        return (Integer) map.get(key);
+    }
+
     @SuppressWarnings("unchecked")
     public static ImmutableList<String> immutableStringList(Map<String, Object> map, String key) {
         List<String> strings = (List<String>) map.get(key);
