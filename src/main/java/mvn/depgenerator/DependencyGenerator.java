@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toList;
 public class DependencyGenerator {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String SEPARATOR = String.format("%s%s", LINE_SEPARATOR, System.lineSeparator());
+    private static final String SEPARATOR = String.format("%s%s", LINE_SEPARATOR, LINE_SEPARATOR);
 
     public static void main(String[] args) {
         String group = null;
@@ -20,10 +20,11 @@ public class DependencyGenerator {
             group = args[0];
             version = Optional.of(args[1]);
         } else {
-            System.out.printf("Usage: java %s <groupId> [version]%n", DependencyGenerator.class.getSimpleName());
+            String className = DependencyGenerator.class.getSimpleName();
+            System.out.printf("Usage: java %s <groupId> [version]%n", className);
             System.out.println();
-            System.out.printf("Example with group:%njava %s io.dropwizard%n%n", DependencyGenerator.class.getSimpleName());
-            System.out.printf("Example with group and version:%njava %s io.dropwizard 0.9.2%n", DependencyGenerator.class.getSimpleName());
+            System.out.printf("Example with group:%njava %s io.dropwizard%n%n", className);
+            System.out.printf("Example with group and version:%njava %s io.dropwizard 0.9.2%n", className);
             System.exit(1);
         }
 
