@@ -12,7 +12,8 @@ public final class Json {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     public static Map<String, Object> toMap(String json) {
-        return MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {});
+        return MAPPER.readValue(json, new TypeReference<>() {
+        });
     }
 
 }
