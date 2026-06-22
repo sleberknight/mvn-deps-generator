@@ -1,17 +1,17 @@
 package mvn.depgenerator;
 
-import com.google.common.collect.ImmutableList;
+import static mvn.depgenerator.util.MapsHelper.immutableStringList;
+import static mvn.depgenerator.util.MapsHelper.integerValue;
+import static mvn.depgenerator.util.MapsHelper.longValue;
+import static mvn.depgenerator.util.MapsHelper.string;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
-
-import static mvn.depgenerator.util.MapsHelper.immutableStringList;
-import static mvn.depgenerator.util.MapsHelper.integerValue;
-import static mvn.depgenerator.util.MapsHelper.longValue;
-import static mvn.depgenerator.util.MapsHelper.string;
 
 /**
  * Represent structure for searches that include only the group and optionally artifact (no version number).
@@ -63,8 +63,8 @@ public class MvnGroupDependency {
     private final String packaging;
     private final Long timestamp;
     private final Integer versionCount;
-    private final ImmutableList<String> text;
-    private final ImmutableList<String> ec;
+    private final List<String> text;
+    private final List<String> ec;
 
     public static MvnGroupDependency from(Map<String, Object> doc) {
         return MvnGroupDependency.builder()

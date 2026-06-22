@@ -1,16 +1,16 @@
 package mvn.depgenerator;
 
-import com.google.common.collect.ImmutableList;
+import static mvn.depgenerator.util.MapsHelper.immutableStringList;
+import static mvn.depgenerator.util.MapsHelper.longValue;
+import static mvn.depgenerator.util.MapsHelper.string;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
-
-import static mvn.depgenerator.util.MapsHelper.immutableStringList;
-import static mvn.depgenerator.util.MapsHelper.longValue;
-import static mvn.depgenerator.util.MapsHelper.string;
 
 /**
  * Represent structure for searches that include the group and version number (and optionally artifact).
@@ -58,18 +58,20 @@ public class MvnDependency {
     private final String version;
     private final String packaging;
     private final Long timestamp;
-    private final ImmutableList<String> tags;
-    private final ImmutableList<String> ec;
+    private final List<String> tags;
+    private final List<String> ec;
 
     public String toXml() {
-        return String.format("<dependency>\n"
-                        + "  <groupId>%s</groupId>\n"
-                        + "  <artifactId>%s</artifactId>\n"
-                        + "  <version>%s</version>\n"
-                        + "  <type>%s</type>\n"
-                        + "</dependency>\n",
-                group, artifact, version, packaging
-        );
+        var format = """
+                <dependency>
+                    <groupId>%s</groupId>
+                    <artifactId>%s</artifactId>
+                    <version>%s</version>
+                    <type>%s</type>
+                </dependency>
+                """;
+
+        return format.formatted(group, artifact, version, packaging);
     }
 
     public static MvnDependency from(Map<String, Object> doc) {
@@ -93,7 +95,7 @@ public class MvnDependency {
                 .version(groupDependency.getLatestVersion())
                 .packaging(groupDependency.getPackaging())
                 .timestamp(groupDependency.getTimestamp())
-                .tags(ImmutableList.of())
+                .tags(List.of())
                 .ec(groupDependency.getEc())
                 .build();
     }
