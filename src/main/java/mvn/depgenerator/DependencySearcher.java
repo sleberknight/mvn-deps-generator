@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DependencySearcher {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String MAVEN_SEARCH_URL = "https://search.maven.org";
+    private static final String MAVEN_SEARCH_URL = "https://central.sonatype.com";
     private static final String MAVEN_SEARCH_PATH = "solrsearch/select";
     private static final int ROWS = 1000;
     private static final String TYPE = "json";
@@ -102,11 +102,11 @@ public class DependencySearcher {
     }
 
     private static String buildSolrQuery(String group, String version) {
-        return String.format("g:\"%s\" AND v:\"%s\"", group, version);
+        return String.format("g:%s AND v:%s", group, version);
     }
 
     private static String buildSolrQuery(String group) {
-        return String.format("g:\"%s\"", group);
+        return String.format("g:%s", group);
     }
 
 }
