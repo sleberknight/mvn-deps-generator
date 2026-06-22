@@ -1,17 +1,17 @@
 package mvn.depgenerator;
 
-import java.util.List;
-import java.util.Optional;
-
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+import java.util.Optional;
 
 public class DependencyGenerator {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String SEPARATOR = String.format("%s%s", LINE_SEPARATOR, LINE_SEPARATOR);
 
-    public static void main(String[] args) {
+    void main(String[] args) {
         String group = null;
         Optional<String> version = Optional.empty();
         if (args.length == 1) {
@@ -24,7 +24,7 @@ public class DependencyGenerator {
             System.out.printf("Usage: java %s <groupId> [version]%n", className);
             System.out.println();
             System.out.printf("Example with group:%njava %s io.dropwizard%n%n", className);
-            System.out.printf("Example with group and version:%njava %s io.dropwizard 0.9.2%n", className);
+            System.out.printf("Example with group and version:%njava %s io.dropwizard 5.0.2%n", className);
             System.exit(1);
         }
 
