@@ -11,6 +11,7 @@ import mvn.depgenerator.util.Json;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DependencySearcher {
 
@@ -20,7 +21,11 @@ public class DependencySearcher {
     private static final int ROWS = 1000;
     private static final String TYPE = "json";
 
-    private static final Client CLIENT = ClientBuilder.newClient();
+    private static final Client CLIENT = ClientBuilder
+            .newBuilder()
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build();
 
     public static void close() {
         CLIENT.close();
