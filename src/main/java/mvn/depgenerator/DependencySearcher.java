@@ -3,28 +3,28 @@ package mvn.depgenerator;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
 import mvn.depgenerator.util.Json;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class DependencySearcher {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String MAVEN_SEARCH_URL = "https://central.sonatype.com";
-    private static final String MAVEN_SEARCH_PATH = "solrsearch/select";
+    private static final String MAVEN_SEARCH_HOST = "central.sonatype.com";
+    private static final String MAVEN_SEARCH_PATH = "/solrsearch/select";
     private static final int ROWS = 1000;
     private static final String TYPE = "json";
 
-    private static final Client CLIENT = ClientBuilder
-            .newBuilder()
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+    private static final HttpClient CLIENT = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(5))
             .build();
 
     public static void close() {
@@ -32,8 +32,7 @@ public class DependencySearcher {
     }
 
     public static List<MvnDependency> getMvnDependencies(String group, String version) {
-        WebTarget baseTarget = getBaseTarget();
-        ResponseInfo responseInfo = search(baseTarget, group, version);
+        ResponseInfo responseInfo = search(buildSolrQuery(group, version));
         validateResponse(responseInfo);
 
         Map<String, Object> responseMap = Json.toMap(responseInfo.responseText);
@@ -43,8 +42,7 @@ public class DependencySearcher {
     }
 
     public static List<MvnGroupDependency> getMvnDependencies(String group) {
-        WebTarget baseTarget = getBaseTarget();
-        ResponseInfo responseInfo = search(baseTarget, group);
+        ResponseInfo responseInfo = search(buildSolrQuery(group));
         validateResponse(responseInfo);
 
         Map<String, Object> responseMap = Json.toMap(responseInfo.responseText);
@@ -60,45 +58,29 @@ public class DependencySearcher {
     }
 
     private static void validateResponse(ResponseInfo responseInfo) {
-        if (responseInfo.statusCode != Response.Status.OK.getStatusCode()) {
+        if (responseInfo.statusCode != 200) {
             String error = String.format("%s (status code: %s)", responseInfo.responseText, responseInfo.statusCode);
             throw new RuntimeException(error);
         }
     }
 
-    private static WebTarget getBaseTarget() {
-        return CLIENT.target(MAVEN_SEARCH_URL).path(MAVEN_SEARCH_PATH);
-    }
-
-    private static ResponseInfo search(WebTarget baseTarget, String group) {
-        WebTarget target = buildTarget(baseTarget, group);
-        return search(target);
-    }
-
-    private static ResponseInfo search(WebTarget baseTarget, String group, String version) {
-        WebTarget target = buildTarget(baseTarget, group, version);
-        return search(target);
-    }
-
-    private static ResponseInfo search(WebTarget target) {
-        Response response = target.request().get();
-        return new ResponseInfo(response.getStatusInfo(), response.readEntity(String.class));
-    }
-
-    private static WebTarget buildTarget(WebTarget baseTarget, String group, String version) {
-        String solrQuery = buildSolrQuery(group, version);
-        return buildWebTarget(baseTarget, solrQuery);
-    }
-
-    private static WebTarget buildTarget(WebTarget baseTarget, String group) {
-        String solrQuery = buildSolrQuery(group);
-        return buildWebTarget(baseTarget, solrQuery);
-    }
-
-    private static WebTarget buildWebTarget(WebTarget baseTarget, String solrQuery) {
-        return baseTarget.queryParam("q", solrQuery)
-                .queryParam("rows", ROWS)
-                .queryParam("wt", TYPE);
+    private static ResponseInfo search(String solrQuery) {
+        try {
+            String queryString = String.format("q=%s&rows=%d&wt=%s", solrQuery, ROWS, TYPE);
+            URI uri = new URI("https", MAVEN_SEARCH_HOST, MAVEN_SEARCH_PATH, queryString, null);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .timeout(Duration.ofSeconds(30))
+                    .GET()
+                    .build();
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+            return new ResponseInfo(response.statusCode(), response.body());
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException("Maven Central search failed", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Maven Central search was interrupted", e);
+        }
     }
 
     private static String buildSolrQuery(String group, String version) {
