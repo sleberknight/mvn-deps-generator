@@ -1,16 +1,12 @@
 package mvn.depgenerator;
 
-import jakarta.ws.rs.core.Response;
-
 public class ResponseInfo {
 
     final int statusCode;
-    final Response.StatusType status;
     final String responseText;
 
-    public ResponseInfo(Response.StatusType status, String responseText) {
-        this.statusCode = status.getStatusCode();
-        this.status = status;
+    public ResponseInfo(int statusCode, String responseText) {
+        this.statusCode = statusCode;
         this.responseText = responseText;
     }
 }
