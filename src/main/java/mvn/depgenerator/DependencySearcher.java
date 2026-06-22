@@ -3,6 +3,7 @@ package mvn.depgenerator;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+import lombok.experimental.UtilityClass;
 import mvn.depgenerator.util.Json;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
+@UtilityClass
 public class DependencySearcher {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();

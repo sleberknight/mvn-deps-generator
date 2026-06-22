@@ -1,8 +1,11 @@
 package mvn.depgenerator;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.Map;
 
+@UtilityClass
 public final class MvnDependencies {
 
     @SuppressWarnings("unchecked")
