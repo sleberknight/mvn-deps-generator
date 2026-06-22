@@ -1,7 +1,8 @@
 # Maven Dependency Generator
 
-A small utility to generate a bunch of Maven dependencies that can be pasted into your POM file in order to quickly
-grab a bunch of related dependencies. Uses [Maven Central Search](http://search.maven.org/) API to perform the searches.
+A small utility to generate a bunch of Maven dependencies that can be pasted into your POM file to quickly
+grab a bunch of related dependencies. Uses [Maven Central Search](https://central.sonatype.com/search) API
+to perform the searches.
 
 ## Building
 
@@ -26,7 +27,7 @@ Example with group:
 java DependencyGenerator io.dropwizard
 
 Example with group and version:
-java DependencyGenerator io.dropwizard 0.9.2
+java DependencyGenerator io.dropwizard 5.0.2
 ```
 
 ### Generate dependencies for a specific group
@@ -38,7 +39,7 @@ For example:
 $ java -jar target/mvn-deps-generator-0.1.0.jar io.dropwizard
 ```
 
-will find the latest dependencies in the `io.dropwizard` group. This means some dependencies may actually
+This will find the latest dependencies in the `io.dropwizard` group. This means some dependencies may actually
 have different versions.
 
 ### Generate dependencies having a specific group and version
@@ -47,7 +48,7 @@ You can specific both a group and version, in which case all dependencies will b
 specific group and version. For example:
 
 ```
-$ java -jar target/mvn-deps-generator-0.1.0.jar io.dropwizard 0.9.2
+$ java -jar target/mvn-deps-generator-0.1.0.jar io.dropwizard 5.0.2
 ```
 
-finds all `io.dropwizard` dependencies that have version `0.9.2` only.
+This finds all `io.dropwizard` dependencies that have version `5.0.2` only.
