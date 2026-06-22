@@ -1,21 +1,21 @@
 package mvn.depgenerator;
 
-import mvn.depgenerator.util.Json;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import java.util.List;
-import java.util.Map;
-
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
+import mvn.depgenerator.util.Json;
+
+import java.util.List;
+import java.util.Map;
 
 public class DependencySearcher {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String MAVEN_SEARCH_URL = "http://search.maven.org";
+    private static final String MAVEN_SEARCH_URL = "https://search.maven.org";
     private static final String MAVEN_SEARCH_PATH = "solrsearch/select";
     private static final int ROWS = 1000;
     private static final String TYPE = "json";
