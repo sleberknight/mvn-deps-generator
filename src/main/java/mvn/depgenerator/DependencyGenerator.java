@@ -1,7 +1,6 @@
 package mvn.depgenerator;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +62,7 @@ public class DependencyGenerator {
         List<MvnGroupDependency> mvnGroupDeps = DependencySearcher.getMvnDependencies(group);
         System.out.printf("Num dependencies: %d%s", mvnGroupDeps.size(), SEPARATOR);
 
-        List<MvnDependency> mvnDeps = mvnGroupDeps.stream().map(MvnDependency::from).collect(toList());
+        List<MvnDependency> mvnDeps = mvnGroupDeps.stream().map(MvnDependency::from).toList();
 
         String artifactAndVersions = mvnDeps.stream()
                 .map(DependencyGenerator::artifactAndVersion)

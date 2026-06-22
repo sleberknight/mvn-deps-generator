@@ -1,7 +1,6 @@
 package mvn.depgenerator;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 import lombok.experimental.UtilityClass;
 import mvn.depgenerator.util.Json;
@@ -40,7 +39,7 @@ public class DependencySearcher {
         Map<String, Object> responseMap = Json.toMap(responseInfo.responseText);
         return MvnDependencies.docs(responseMap).stream()
                 .map(MvnDependency::from)
-                .collect(toList());
+                .toList();
     }
 
     public static List<MvnGroupDependency> getMvnDependencies(String group) {
@@ -50,7 +49,7 @@ public class DependencySearcher {
         Map<String, Object> responseMap = Json.toMap(responseInfo.responseText);
         return MvnDependencies.docs(responseMap).stream()
                 .map(MvnGroupDependency::from)
-                .collect(toList());
+                .toList();
     }
 
     public static String getPomDependencyXml(List<MvnDependency> mvnDeps) {
