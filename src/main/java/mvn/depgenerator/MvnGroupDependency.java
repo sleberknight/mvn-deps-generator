@@ -22,8 +22,8 @@ import java.util.Map;
  * {
  *   "responseHeader":{ ... },
  *   "response":{
- *     "numFound":28,
- *     "start":0,
+ *     "numFound": 28,
+ *     "start": 0,
  *     "docs":[
  *       {...},
  *       {...}

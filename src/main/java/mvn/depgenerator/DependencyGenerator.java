@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.joining;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("java:S106")
 public class DependencyGenerator {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();

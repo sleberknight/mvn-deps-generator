@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @UtilityClass
+@SuppressWarnings("java:S112")
 public class DependencySearcher {
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
