@@ -15,6 +15,9 @@
         <java.version>25</java.version>
         <lombok.version>1.18.46</lombok.version>
         <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+        <guava.version>33.6.0-jre</guava.version>
+        <jersey-client.version>3.1.12</jersey-client.version>
+        <jackson-databind.version>2.22.0</jackson-databind.version>
     </properties>
 
     <dependencies>
@@ -22,19 +25,19 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>33.6.0-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>2.22.2</version>
+            <version>${jersey-client.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.22.0</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <dependency>
@@ -48,16 +51,6 @@
 
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok-maven-plugin</artifactId>
-                    <version>1.18.20.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
 
             <plugin>
