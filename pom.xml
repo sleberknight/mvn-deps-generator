@@ -15,17 +15,10 @@
         <java.version>25</java.version>
         <lombok.version>1.18.46</lombok.version>
         <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
-        <guava.version>33.6.0-jre</guava.version>
         <jackson-databind.version>2.22.0</jackson-databind.version>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
