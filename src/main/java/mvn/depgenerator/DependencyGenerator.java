@@ -11,7 +11,7 @@ public class DependencyGenerator {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String SEPARATOR = String.format("%s%s", LINE_SEPARATOR, LINE_SEPARATOR);
 
-    public static void main(String[] args) {
+    void main(String[] args) {
         String group = null;
         Optional<String> version = Optional.empty();
         if (args.length == 1) {
