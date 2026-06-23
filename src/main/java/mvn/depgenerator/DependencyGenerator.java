@@ -26,6 +26,7 @@ public class DependencyGenerator {
             System.out.println();
             System.out.printf("Example with group:%njava %s io.dropwizard%n%n", className);
             System.out.printf("Example with group and version:%njava %s io.dropwizard 5.0.2%n", className);
+            System.out.println();
             System.exit(1);
         }
 
