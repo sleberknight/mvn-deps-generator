@@ -22,11 +22,13 @@ public class DependencyGenerator {
             group = args[0];
             version = args[1];
         } else {
-            String className = DependencyGenerator.class.getSimpleName();
-            System.out.printf("Usage: java %s <groupId> [version]%n", className);
+            System.out.println("Usage: mvn-deps-generator <groupId> [version]");
             System.out.println();
-            System.out.printf("Example with group:%njava %s io.dropwizard%n%n", className);
-            System.out.printf("Example with group and version:%njava %s io.dropwizard 5.0.2%n", className);
+            System.out.println("Example with group:");
+            System.out.println("mvn-deps-generator io.dropwizard");
+            System.out.println();
+            System.out.println("Example with group and version:");
+            System.out.println("mvn-deps-generator io.dropwizard 5.0.2");
             System.out.println();
             System.exit(1);
         }
