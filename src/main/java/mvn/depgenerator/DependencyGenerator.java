@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.joining;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @SuppressWarnings("java:S106")
 public class DependencyGenerator {
@@ -46,10 +47,7 @@ public class DependencyGenerator {
         List<MvnDependency> mvnDeps = DependencySearcher.getMvnDependencies(group, version);
         System.out.printf("Num dependencies: %d%s", mvnDeps.size(), SEPARATOR);
 
-        String artifactIds = mvnDeps.stream()
-                .map(MvnDependency::getArtifact)
-                .sorted()
-                .collect(joining(LINE_SEPARATOR));
+        String artifactIds = mapJoiningByLines(mvnDeps, MvnDependency::getArtifact);
         System.out.printf("Artifacts:%n%s%s", artifactIds, SEPARATOR);
 
         String depsXml = DependencySearcher.getPomDependencyXml(mvnDeps);
@@ -65,15 +63,21 @@ public class DependencyGenerator {
 
         List<MvnDependency> mvnDeps = mvnGroupDeps.stream().map(MvnDependency::from).toList();
 
-        String artifactAndVersions = mvnDeps.stream()
-                .map(DependencyGenerator::artifactAndVersion)
-                .sorted()
-                .collect(joining(LINE_SEPARATOR));
+        String artifactAndVersions = mapJoiningByLines(mvnDeps, DependencyGenerator::artifactAndVersion);
         System.out.printf("Artifacts:%n%s%s", artifactAndVersions, SEPARATOR);
 
         String depsXml = DependencySearcher.getPomDependencyXml(mvnDeps);
         System.out.println("POM dependency XML:");
         System.out.println(depsXml);
+    }
+
+    private static String mapJoiningByLines(List<MvnDependency> mvnDeps,
+                                            Function<MvnDependency, String> fn) {
+
+        return mvnDeps.stream()
+                .map(fn)
+                .sorted()
+                .collect(joining(LINE_SEPARATOR));
     }
 
     private static String artifactAndVersion(MvnDependency mvnDep) {
