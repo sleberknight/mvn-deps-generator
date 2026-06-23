@@ -44,7 +44,7 @@ have different versions.
 
 ### Generate dependencies having a specific group and version
 
-You can specific both a group and version, in which case all dependencies will be generated for that
+You can specify both a group and a version, in which case all dependencies will be generated for that
 specific group and version. For example:
 
 ```
