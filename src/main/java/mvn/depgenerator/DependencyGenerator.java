@@ -1,9 +1,9 @@
 package mvn.depgenerator;
 
+import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 @SuppressWarnings("java:S106")
@@ -14,12 +14,13 @@ public class DependencyGenerator {
 
     void main(String[] args) {
         String group = null;
-        Optional<String> version = Optional.empty();
+        String version = null;
+
         if (args.length == 1) {
             group = args[0];
         } else if (args.length == 2) {
             group = args[0];
-            version = Optional.of(args[1]);
+            version = args[1];
         } else {
             String className = DependencyGenerator.class.getSimpleName();
             System.out.printf("Usage: java %s <groupId> [version]%n", className);
@@ -31,8 +32,8 @@ public class DependencyGenerator {
         }
 
         try {
-            if (version.isPresent()) {
-                generateDeps(group, version.get());
+            if (nonNull(version)) {
+                generateDeps(group, version);
             } else {
                 generateDeps(group);
             }
