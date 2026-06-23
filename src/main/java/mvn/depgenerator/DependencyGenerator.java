@@ -49,12 +49,7 @@ public class DependencyGenerator {
         List<MvnDependency> mvnDeps = DependencySearcher.getMvnDependencies(group, version);
         System.out.printf("Num dependencies: %d%s", mvnDeps.size(), SEPARATOR);
 
-        String artifactIds = mapJoiningByLines(mvnDeps, MvnDependency::getArtifact);
-        System.out.printf("Artifacts:%n%s%s", artifactIds, SEPARATOR);
-
-        String depsXml = DependencySearcher.getPomDependencyXml(mvnDeps);
-        System.out.println("POM dependency XML:");
-        System.out.println(depsXml);
+        printDependencyPomXml(mvnDeps, MvnDependency::getArtifact);
     }
 
     private static void generateDeps(String group) {
@@ -65,8 +60,14 @@ public class DependencyGenerator {
 
         List<MvnDependency> mvnDeps = mvnGroupDeps.stream().map(MvnDependency::from).toList();
 
-        String artifactAndVersions = mapJoiningByLines(mvnDeps, DependencyGenerator::artifactAndVersion);
-        System.out.printf("Artifacts:%n%s%s", artifactAndVersions, SEPARATOR);
+        printDependencyPomXml(mvnDeps, DependencyGenerator::artifactAndVersion);
+    }
+
+    private static void printDependencyPomXml(List<MvnDependency> mvnDeps,
+                                              Function<MvnDependency, String> fn) {
+
+        String artifactsDescription = mapJoiningByLines(mvnDeps, fn);
+        System.out.printf("Artifacts:%n%s%s", artifactsDescription, SEPARATOR);
 
         String depsXml = DependencySearcher.getPomDependencyXml(mvnDeps);
         System.out.println("POM dependency XML:");
