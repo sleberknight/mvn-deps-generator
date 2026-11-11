@@ -16,7 +16,7 @@
         <lombok.version>1.18.48</lombok.version>
         <maven-enforcer-plugin.version>3.7.0</maven-enforcer-plugin.version>
         <native-maven-plugin.version>1.1.18</native-maven-plugin.version>
-        <jackson-databind.version>3.2.4</jackson-databind.version>
+        <jackson-databind.version>3.3.0</jackson-databind.version>
     </properties>
 
     <dependencies>
